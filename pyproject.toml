@@ -7,6 +7,11 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
+pygame = "^2.6.1"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
 
 
 [build-system]
@@ -16,3 +21,5 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 serpent = "snake.Serpent:serpent"
+game = "snake.jeu:screen"
+arg ="snake.jeu:argue"
