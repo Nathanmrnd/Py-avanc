@@ -5,7 +5,7 @@ import argparse
 MIN_SIZE = 200
 W_DEFAULT =  500
 H_DEFAULT = 500
-
+nathan =0
 
 def argue():
 
