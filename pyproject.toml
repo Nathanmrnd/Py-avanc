@@ -21,5 +21,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 serpent = "snake.Serpent:serpent"
-game = "snake.jeu:screen"
+
+game = "snake.jeu:game"
 arg ="snake.jeu:argue"
+
