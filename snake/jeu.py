@@ -7,11 +7,11 @@ W_DEFAULT =  500
 H_DEFAULT = 500
 
 
-def argue():
+def argue(): #permet à l'utilsateur de choisir la hauteur (heights) et la largeur (width) de la fenetre de jeu
 
     parser = argparse.ArgumentParser(description='Some description.')
-    parser.add_argument('-L', type=int, help="Width")
-    parser.add_argument('-l', type=int, help="Heights")
+    parser.add_argument('-L', type=int, help="Width", default=W_DEFAULT)
+    parser.add_argument('-l', type=int, help="Heights", default=H_DEFAULT)
     args = parser.parse_args()
 
     
@@ -54,7 +54,7 @@ def game():
     args=argue()
     (w,h)=(args.L,args.l)
     n=16 #nombre de ligne/colonne
-    #o initialise la localisation du snake
+    #on initialise la localisation du snake
     localisation=[(w/5 + (n//2 - 2)*w*3/(5*n), h/5+ (n//2)*h*3/(5*n)),(w/5 + (n//2 -1)*w*3/(5*n), h/5+ (n//2)*h*3/(5*n)),(w/5 + (n//2)*w*3/(5*n), h/5+ (n//2)*h*3/(5*n))]
     pygame.init() 
     screen = pygame.display.set_mode( (w, h) )
@@ -67,8 +67,8 @@ def game():
     while True:
         # Wait one second, starting from last display or now
         clock.tick(1)
-        echiquier(screen,w,h,n)
-        snake(screen, localisation,n,w,h)
+        echiquier(screen,w,h,n) #il faut à chaque fois redessiner l'échiquier pour voir le déplacement du serpent
+        snake(screen, localisation,n,w,h) #on redessine le serpent à sa nouvelle position à chaque fois
         # Process new events (keyboard, mouse)
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN or event.type == pygame.QUIT:
@@ -84,25 +84,5 @@ def game():
 
 
 
-def screen():
-    (w,h)=(W_DEFAULT,H_DEFAULT)
-    pygame.init()   
-    screen = pygame.display.set_mode( (w, h) )
 
-
-
-    clock = pygame.time.Clock()
-    while True:
-        # Wait one second, starting from last display or now
-        clock.tick(1)
-        # Process new events (keyboard, mouse)
-        for event in pygame.event.get():
-            pass # do nothing for the moment
-        screen.fill( (0, 255, 0) ) # Fill screen with green
-        color = (0, 0, 255) # blue
-        rect = pygame.Rect(w/5, h/5, w*3/5, h*3/5)
-        pygame.draw.rect(screen, color, rect)
-        pygame.display.update()
-
-    pygame.quit()
 
