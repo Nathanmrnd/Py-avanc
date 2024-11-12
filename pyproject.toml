@@ -23,5 +23,5 @@ build-backend = "poetry.core.masonry.api"
 serpent = "snake.Serpent:serpent"
 
 game = "snake.jeu:game"
-arg ="snake.jeu:argue"
+
 
