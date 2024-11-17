@@ -8,11 +8,16 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.12"
 pygame = "^2.6.1"
+random-poem = "^1.0.1"
 
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.3"
 
+
+
+[tool.poetry.group.mygroup.dependencies]
+random-poem = "^1.0.1"
 
 [build-system]
 requires = ["poetry-core"]

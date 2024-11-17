@@ -1,6 +1,6 @@
 import pygame
 import argparse
-import random
+import random as rd
 import math
 
 MIN_SIZE = 200
@@ -89,16 +89,24 @@ def snake(screen,Localisation,n,w,h): #localisation : liste contenant les coordo
         case1.dessin()
         
 
-def fruit(eaten,n,w,h,screen): #eaten est un booléen indiquant si le fruita été mangé ou pas
+def fruit(eaten,n,w,h,screen,coordfruit): #eaten est un booléen indiquant si le fruit a été mangé ou pas
     red = (255,0,0)
     if eaten: 
-        i=13
-        j=4
-        # i = randint(0,n-1)
-        # j= randint(0,n-1)
+        i = rd.randint(0,n-1)
+        j= rd.randint(0,n-1)
+        coordfruit=(i,j)
         casefruit = Case(i,j,red,w,h,n,screen)
         casefruit.dessin()
         eaten = False
+    return (coordfruit,eaten)
+
+
+def eatthefruit(eaten,n,w,h,screen,localisation,coordfruit):
+    if localisation[-1]==coordfruit :
+        localisation.insert(0, localisation[0])
+        eaten=True
+    return (localisation,eaten)
+
 
 def déplacement_droite(localisation,w,h,n,screen):
     black = (0, 0, 0)   
@@ -161,10 +169,43 @@ def déplacement_gauche(localisation,w,h,n,screen):
     return localisation
 
 
+def doublon(localisation):
+    
+    for i in range(len(localisation)):
+        for j in range(i + 1, len(localisation)):
+            if localisation[i] == localisation[j]:
+                return True
+    return False
+
+def perdu(localisation,n,w,h,screen):
+    tete = localisation[-1]  
+    nx, ny = tete
+    if nx < 0 or nx >= n or ny < 0 or ny >= n or localisation.count(tete) > 1:
+        font = pygame.font.SysFont(None, 55)
+        text = font.render("LOOOOSER", True, (255, 0, 0))
+        screen.fill((0, 0, 0))
+        screen.blit(text, ((w - text.get_width()) // 2, (h - text.get_height()) // 2))
+        pygame.display.update()
+        pygame.time.wait(3000)
+        pygame.quit() 
+        quit() 
+
+
+def score(screen, localisation, w, h,n):
+    font = pygame.font.SysFont(None, 35)
+    longueur = len(localisation)
+    text = font.render(f"Score : {longueur}", True, (255, 255, 255)) 
+    pygame.draw.rect(screen, (0, 0, 0), (0, 0, w, 50)) #on efface le score précédent 
+    screen.blit(text, (10, 10)) 
+    pygame.display.update()
+
+
+
 def game():
     args=argue()
     (w,h)=(args.L,args.l)
     eaten = True
+    coordfruit=(0,0)
     n=15 #nombre de ligne/colonne
     #on initialise la localisation du snake
     localisation=[(n//2,n//4),(n//2,n//4 +1),(n//2,n//4 +2)]
@@ -182,8 +223,9 @@ def game():
     while True:
         i+=1
         # Wait one second, starting from last display or now
-        clock.tick(1+i/10)
-        fruit(eaten,n,w,h,screen)
+        clock.tick(1+i/20) #à adapter en fonction des envies
+        (localisation,eaten)=eatthefruit(eaten,n,w,h,screen,localisation,coordfruit)
+        (coordfruit,eaten)=fruit(eaten,n,w,h,screen,coordfruit)
         # Process new events (keyboard, mouse)
         for event in pygame.event.get():
             if event.type == pygame.QUIT :
@@ -210,8 +252,9 @@ def game():
         if direction == 'Gauche':
             localisation = déplacement_gauche(localisation,w,h,n,screen)
             
-        
-           
+        score(screen,localisation,w,h,n)
+        perdu(localisation,n,w,h,screen)
+         
         snake(screen, localisation,n,w,h) #on redessine le serpent à sa nouvelle position à chaque fois
         pygame.display.update() 
         
