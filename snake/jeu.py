@@ -91,6 +91,7 @@ def snake(screen,Localisation,n,w,h): #localisation : liste contenant les coordo
 
 def fruit(eaten,n,w,h,screen,coordfruit): #eaten est un booléen indiquant si le fruit a été mangé ou pas
     red = (255,0,0)
+    
     if eaten: 
         i = rd.randint(0,n-1)
         j= rd.randint(0,n-1)
@@ -98,6 +99,10 @@ def fruit(eaten,n,w,h,screen,coordfruit): #eaten est un booléen indiquant si le
         casefruit = Case(i,j,red,w,h,n,screen)
         casefruit.dessin()
         eaten = False
+    else :
+        (i,j)=coordfruit
+        casefruit = Case(i,j,red,w,h,n,screen)
+        casefruit.dessin()
     return (coordfruit,eaten)
 
 
@@ -261,6 +266,5 @@ def game():
 
     pygame.quit()
     
-
 
 
